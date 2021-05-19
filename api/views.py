@@ -12,11 +12,22 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsAuthorOrReadOnly,)
-    filter_backends=[django_filters.rest_framework.DjangoFilterBackend]
-    filterset_fields=['group',]
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ('group',)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
 
-# TODO:  Напишите свой вариант
+class CommentViewSet(viewsets.ModelViewSet):
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsAuthorOrReadOnly,)
+
+    def get_queryset(self, *args, **kwargs):
+        post = get_object_or_404(Post, id=self.kwargs.get("post_id"))
+        return post.comments
+
+    def perform_create(self, serializer):
+        post = get_object_or_404(Post, id=self.kwargs.get("post_id"))
+        serializer.save(author=self.request.user, post=post)
