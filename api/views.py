@@ -1,10 +1,11 @@
 import django_filters.rest_framework
 from rest_framework import permissions, viewsets
+from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 
-from .models import Post
+from .models import Group, Post
 from .permissions import IsAuthorOrReadOnly
-from .serializers import CommentSerializer, PostSerializer
+from .serializers import CommentSerializer, GroupSerializer, PostSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -31,3 +32,8 @@ class CommentViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         post = get_object_or_404(Post, id=self.kwargs.get("post_id"))
         serializer.save(author=self.request.user, post=post)
+
+
+class GroupAPIView(generics.ListCreateAPIView):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
