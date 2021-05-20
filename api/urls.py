@@ -22,5 +22,7 @@ urlpatterns = [
          TokenRefreshView.as_view(),
          name='token_refresh'),
     path('', include(router_v1.urls)),
-    path('v1/group/', GroupAPIView.as_view()),
+    path('v1/group/',
+         GroupAPIView.as_view(),
+         name='group'),
 ]
