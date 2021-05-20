@@ -1,4 +1,6 @@
 import os
+from datetime import timedelta
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -100,3 +102,7 @@ REST_FRAMEWORK = {
 # Cross Origin Request Sharing
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_URLS_REGEX = r'^/api/.*$'
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=24 * 60),
+}
