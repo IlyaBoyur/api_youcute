@@ -28,7 +28,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
 class FollowSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
-    following = serializers.ReadOnlyField(source='author.username')
+    following = serializers.ReadOnlyField(source='following.username')
 
     class Meta:
         fields = ('user', 'following')
