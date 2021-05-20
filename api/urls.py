@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import (TokenObtainPairView,
                                             TokenRefreshView)
 
-from .views import CommentViewSet, GroupAPIView, PostViewSet
+from .views import CommentViewSet, FollowAPIView, GroupAPIView, PostViewSet
 
 
 router_v1 = DefaultRouter()
@@ -25,4 +25,7 @@ urlpatterns = [
     path('v1/group/',
          GroupAPIView.as_view(),
          name='group'),
+    path('v1/follow/',
+         FollowAPIView.as_view(),
+         name='follow'),
 ]

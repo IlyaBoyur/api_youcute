@@ -23,3 +23,12 @@ class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('title',)
         model = Group
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+    following = serializers.ReadOnlyField(source='author.username')
+
+    class Meta:
+        fields = ('user', 'following')
+        model = Follow
