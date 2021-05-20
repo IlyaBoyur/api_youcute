@@ -1,7 +1,5 @@
 import django_filters.rest_framework
-from rest_framework import permissions, viewsets
-from rest_framework import generics
-from rest_framework.generics import get_object_or_404
+from rest_framework import filters, generics, permissions, viewsets
 
 from .models import Group, Post
 from .permissions import IsAuthorOrReadOnly
@@ -26,11 +24,11 @@ class CommentViewSet(viewsets.ModelViewSet):
                           IsAuthorOrReadOnly,)
 
     def get_queryset(self, *args, **kwargs):
-        post = get_object_or_404(Post, id=self.kwargs.get("post_id"))
+        post = generics.get_object_or_404(Post, id=self.kwargs.get("post_id"))
         return post.comments
 
     def perform_create(self, serializer):
-        post = get_object_or_404(Post, id=self.kwargs.get("post_id"))
+        post = generics.get_object_or_404(Post, id=self.kwargs.get("post_id"))
         serializer.save(author=self.request.user, post=post)
 
 
