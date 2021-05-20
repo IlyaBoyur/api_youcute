@@ -1,7 +1,6 @@
 import django_filters.rest_framework
 from rest_framework import (filters, generics, permissions, response, status,
                             viewsets)
-from slugify import slugify
 
 from .models import Follow, Group, Post, User
 from .permissions import IsAuthorOrReadOnly
@@ -38,9 +37,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 class GroupAPIView(generics.ListCreateAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(slug=slugify(serializer.validated_data["title"]))
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 class FollowAPIView(generics.ListCreateAPIView):
