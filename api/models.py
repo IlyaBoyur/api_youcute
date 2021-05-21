@@ -60,6 +60,11 @@ class Comment(models.Model):
         db_index=True,
     )
 
+    class Meta:
+        ordering = (
+            "-created",
+        )
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
