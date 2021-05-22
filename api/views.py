@@ -1,5 +1,6 @@
 import django_filters.rest_framework
 from rest_framework import filters, generics, permissions, viewsets
+from rest_framework.generics import get_object_or_404
 
 from .exceptions import BadRequestAPIException
 from .models import Group, Post, User
@@ -26,12 +27,13 @@ class CommentViewSet(viewsets.ModelViewSet):
                           IsAuthorOrReadOnly,)
 
     def get_queryset(self, *args, **kwargs):
-        post = generics.get_object_or_404(Post, id=self.kwargs.get("post_id"))
+        post = get_object_or_404(Post, id=self.kwargs.get("post_id"))
         return post.comments
 
     def perform_create(self, serializer):
-        post = generics.get_object_or_404(Post, id=self.kwargs.get("post_id"))
+        post = get_object_or_404(Post, id=self.kwargs.get("post_id"))
         serializer.save(author=self.request.user, post=post)
+
 
 
 class GroupAPIView(generics.ListCreateAPIView):
@@ -49,7 +51,7 @@ class FollowAPIView(generics.ListCreateAPIView):
         return self.request.user.following
 
     def perform_create(self, serializer):
-        following = generics.get_object_or_404(
+        following = get_object_or_404(
             User,
             username=serializer.validated_data["following"].username
         )
