@@ -35,14 +35,13 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user, post=post)
 
 
-
-class GroupAPIView(generics.ListCreateAPIView):
+class GroupAPIView(viewsets.ViewSetMixin, generics.ListCreateAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
-class FollowAPIView(generics.ListCreateAPIView):
+class FollowAPIView(viewsets.ViewSetMixin, generics.ListCreateAPIView):
     serializer_class = FollowSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ('user__username',)
