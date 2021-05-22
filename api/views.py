@@ -1,6 +1,8 @@
 import django_filters.rest_framework
-from rest_framework import filters, generics, permissions, viewsets
-from rest_framework.generics import get_object_or_404
+from rest_framework import filters
+from rest_framework.generics import ListCreateAPIView, get_object_or_404
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.viewsets import ModelViewSet, ViewSetMixin
 
 from .exceptions import BadRequestAPIException
 from .models import Group, Post, User
@@ -9,10 +11,10 @@ from .serializers import (CommentSerializer, FollowSerializer, GroupSerializer,
                           PostSerializer)
 
 
-class PostViewSet(viewsets.ModelViewSet):
+class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+    permission_classes = (IsAuthenticatedOrReadOnly,
                           IsAuthorOrReadOnly,)
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = ('group',)
@@ -21,9 +23,9 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
 
-class CommentViewSet(viewsets.ModelViewSet):
+class CommentViewSet(ModelViewSet):
     serializer_class = CommentSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+    permission_classes = (IsAuthenticatedOrReadOnly,
                           IsAuthorOrReadOnly,)
 
     def get_queryset(self, *args, **kwargs):
@@ -35,13 +37,13 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user, post=post)
 
 
-class GroupAPIView(viewsets.ViewSetMixin, generics.ListCreateAPIView):
+class GroupAPIView(ViewSetMixin, ListCreateAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 
-class FollowAPIView(viewsets.ViewSetMixin, generics.ListCreateAPIView):
+class FollowAPIView(ViewSetMixin, ListCreateAPIView):
     serializer_class = FollowSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ('user__username',)
