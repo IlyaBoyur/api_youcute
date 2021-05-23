@@ -4,8 +4,7 @@ from rest_framework.generics import ListCreateAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.viewsets import ModelViewSet, ViewSetMixin
 
-from .exceptions import BadRequestAPIException
-from .models import Group, Post, User
+from .models import Group, Post
 from .permissions import IsAuthorOrReadOnly
 from .serializers import (CommentSerializer, FollowSerializer, GroupSerializer,
                           PostSerializer)
@@ -52,11 +51,4 @@ class FollowAPIView(ViewSetMixin, ListCreateAPIView):
         return self.request.user.following
 
     def perform_create(self, serializer):
-        following = get_object_or_404(
-            User,
-            username=serializer.validated_data["following"].username
-        )
-        if (following == self.request.user
-           or self.request.user.follower.filter(following=following).exists()):
-            raise BadRequestAPIException()
         serializer.save(user=self.request.user)

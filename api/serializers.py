@@ -1,6 +1,7 @@
-from rest_framework import serializers
+from rest_framework import serializers, validators
 
 from .models import Comment, Follow, Group, Post, User
+from .validators import NotEqualFieldsValidator
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -35,7 +36,8 @@ class GroupSerializer(serializers.ModelSerializer):
 class FollowSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(
         slug_field='username',
-        read_only=True
+        queryset=User.objects.all(),
+        default=serializers.CurrentUserDefault(),
     )
     following = serializers.SlugRelatedField(
         slug_field='username',
@@ -45,3 +47,14 @@ class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = ('user', 'following')
+        validators = [
+            validators.UniqueTogetherValidator(
+                queryset=Follow.objects.all(),
+                fields=['user', 'following'],
+                message='You already follow this user.'
+            ),
+            NotEqualFieldsValidator(
+                fields=['user', 'following'],
+                message='Please do not try to follow yourself.'
+            )
+        ]
