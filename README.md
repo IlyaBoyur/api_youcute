@@ -19,4 +19,4 @@ python manage.py migrate
 python manage.py runserver
 ```
 3. Enjoy!
-See documantation to REST API on http://www.127.0.0.1:8000/redoc
+See documantation to REST API on http://127.0.0.1:8000/redoc
