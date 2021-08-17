@@ -1,7 +1,10 @@
 # REST API to Youcute Service
+Stack: Django, Django REST Framework, Simple-JWT, SQLite3, git
+
+
 * Original project: https://github.com/IlyaBoyur/youcute
 * JWT-token authentication
-Django, Django REST Framework, Simple-JWT, SQLite3, git
+
 
 To test functionality:
 ### 1. Prepare workspace
