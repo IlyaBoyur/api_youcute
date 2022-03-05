@@ -23,3 +23,7 @@ python manage.py runserver
 ```
 ### 4. Enjoy!
 See documantation to REST API on http://127.0.0.1:8000/redoc
+
+### Deployed solution
+Check documentation at [documentation root](https://api-youcute.herokuapp.com/redoc/)
+Examine [API root](https://api-youcute.herokuapp.com/api/)
