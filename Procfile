@@ -1,1 +1,1 @@
-web: gunicorn yatube_api.wsgi --max-requests 100
+web: python manage.py runserver 0.0.0.0:\$PORT
