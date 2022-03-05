@@ -1,0 +1,1 @@
+web: gunicorn yatube_api.wsgi --max-requests 100

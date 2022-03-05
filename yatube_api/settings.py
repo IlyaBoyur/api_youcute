@@ -1,5 +1,6 @@
 import os
 from datetime import timedelta
+import django_heroku
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -106,3 +107,6 @@ CORS_URLS_REGEX = r'^/api/.*$'
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=365),
 }
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
