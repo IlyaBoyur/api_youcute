@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #SECRET_KEY = 'hhz7l-ltdismtf@bzyz+rple7*s*w$jak%whj@(@u0eok^f9k4'
 
 # DEBUG = True
-DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
+DEBUG = (os.environ.get('DJANGO_DEBUG_VALUE') == 'True')
 
 ALLOWED_HOSTS = []
 
